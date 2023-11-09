@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue HW 2</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="products">
+        <select v-model="selected" @change="check">
+          <option disabled value="">
+            Выберите один из вариантов сортировки
+          </option>
+          <option value="1">по возрастанию цены</option>
+          <option value="2">по убыванию цены</option>
+        </select>
+        <ul>
+          <li v-for="product in products" :key="product.name">
+            {{product.name}} : {{product.price}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          selected: "",
+          products: [
+            {
+              name: "phone",
+              price: 5000,
+            },
+            {
+              name: "pen",
+              price: 8,
+            },
+            {
+              name: "backpack",
+              price: 2000,
+            },
+            {
+              name: "apple",
+              price: 50,
+            },
+            {
+              name: "toy",
+              price: 800,
+            },
+            {
+              name: "chocolate",
+              price: 300,
+            },
+            {
+              name: "umbrella",
+              price: 1200,
+            },
+          ],
+        },
+        computed: {
+          sortedUp() {
+            return this.products
+              .map((item) => ({ ...item }))
+              .sort((a, b) => a.price - b.price);
+          },
+          sortedDown() {
+            return this.sortedUp.slice().reverse();
+          },
+        },
+        methods: {
+          check() {
+            if (this.selected === "1") {
+              this.products = this.sortedUp;
+            } else if (this.selected === "2") {
+              this.products = this.sortedDown;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
